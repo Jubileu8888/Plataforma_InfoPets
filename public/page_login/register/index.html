@@ -5,43 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OLX - Cadastro</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-    /* Seu CSS personalizado pode ser adicionado aqui */
-    body {
-      background-color: #f8f9fa; /* Cor de fundo */
-    }
-
-    .registration-container {
-      margin-top: 100px;
-    }
-
-    .registration-form {
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 40px;
-      animation: slide-up 0.5s ease;
-    }
-
-    @keyframes slide-up {
-      0% {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .form-control {
-      border-radius: 8px;
-    }
-
-    .btn-register {
-      border-radius: 8px;
-    }
-  </style>
 </head>
 <body>
 
@@ -74,27 +37,10 @@
   </div>
 </div>
 
-<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="index.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/verify2', true); 
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        if (xhr.status === 200) {
-          console.log("...")
-        } else {
-          console.error("Erro na requisição: " + xhr.status);
-        }
-      }
-    }
-    xhr.send();
-  });
-</script>
 
 </body>
 </html>

@@ -1,0 +1,53 @@
+body {
+    padding-top: 70px;
+}
+
+.profile-ball {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    border: 5px solid #fff;
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+.profile-img {
+    width: 100%;
+    height: 140px;
+    display: block;
+}
+
+.listing {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+#editProfileBtn {
+    display: none;
+    width: 200px;
+    margin-top: 30px;
+    background-color: #357ca5;
+    border-color: #357ca5;
+}
+
+#editProfileBtn:hover {
+    background-color: #2b6280;
+    border-color: #2b6280;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
