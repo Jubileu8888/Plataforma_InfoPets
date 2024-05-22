@@ -157,7 +157,7 @@
     formData.append('image', image);
     
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/post', true);
+    xhr.open('POST', '/api/post', true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 200) {

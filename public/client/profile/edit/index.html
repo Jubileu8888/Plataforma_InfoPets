@@ -161,7 +161,7 @@
     formData.append('avatar', avatarFile);
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/save', true);
+    xhr.open('POST', '/api/save', true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 200) {

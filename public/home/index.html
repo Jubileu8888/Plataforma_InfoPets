@@ -246,7 +246,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     function fazerRequisicao() {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/verifyprofile', true);
+      xhr.open('GET', '/api/verifyprofile', true);
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
@@ -277,7 +277,7 @@
 
     function srcad() {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/srcposts', true);
+      xhr.open('GET', '/api/srcposts', true);
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {

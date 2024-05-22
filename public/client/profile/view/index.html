@@ -121,7 +121,7 @@
 
   function getinfo() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/getinfo', true);
+    xhr.open('GET', '/api/getinfo', true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 200) {
