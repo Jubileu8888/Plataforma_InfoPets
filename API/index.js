@@ -44,7 +44,12 @@ app.use(session({
 })); 
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/home/index.html');
+  res.sendFile(path.join(__dirname, '../public/home/index.html'), (err) => {
+    if (err) {
+        console.error('Erro ao enviar arquivo:', err);
+        res.status(err.status).end();
+      }
+  });
 })
 
 app.get('/api/verifyprofile', (req, res) => {
@@ -76,7 +81,12 @@ app.get('/api/verify', (req, res) => {
   if (req.session.sessioninfopets) {
     return;
   } else {
-      res.sendFile(__dirname + '/public/page_login/login/index.html');
+    res.sendFile(path.join(__dirname, '../public/page_login/login/index.html'), (err) => {
+      if (err) {
+          console.error('Erro ao enviar arquivo:', err);
+          res.status(err.status).end();
+        }
+    });
   }
 });
 
