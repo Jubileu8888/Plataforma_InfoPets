@@ -394,6 +394,3 @@ app.use(express.static('public'));
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
-
-// CLIENT ID = 4934313031a7eba
-// CLIENT SECRET = a1800f8b632d70eb794f9738d90214a28e4b518d
