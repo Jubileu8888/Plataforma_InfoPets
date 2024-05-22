@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Perfil</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Adicionando preenchimento superior ao corpo da página */
+    body {
+      padding-top: 70px; /* Ajuste conforme necessário para compensar a altura da navbar */
+      position: relative;
+    }
+
+    /* Estilo para a bola de perfil */
+    .profile-ball {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto;
+      border: 5px solid #fff;
+      box-shadow: 0 0 0 10px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    /* Estilo para a imagem de perfil */
+    .profile-img {
+      width: 100%; /* Largura 100% para preencher a bola */
+      height: 150px; /* Altura automática para manter a proporção */
+      display: block;
+      object-fit: cover; /* Ajusta a imagem para preencher o espaço da bola */
+    }
+
+    /* Estilo para o formulário */
+    .edit-form {
+      max-width: 500px; /* Largura máxima do formulário */
+      margin: 0 auto; /* Centralizando o formulário na página */
+    }
+
+    /* Estilo para o overlay de loading */
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.7); /* Cor de fundo com transparência */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999; /* Garante que o overlay esteja acima de todo o conteúdo */
+      visibility: hidden; /* Oculta inicialmente o overlay */
+    }
+
+    /* Estilo para o spinner de loading */
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 5px solid #ccc;
+      border-top-color: #007bff; /* Cor do spinner */
+      animation: spin 1s linear infinite; /* Animação de rotação */
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Animação para mostrar o overlay */
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container">
+    <!-- Nome da empresa na navbar -->
+    <a class="navbar-brand" href="../../../home/index.html">InfoPets</a>
+    <!-- Botão de voltar para o perfil -->
+    <a class="btn btn-primary" href="../view/index.html">Voltar para o Perfil</a>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <h1 class="mb-4">Editar Perfil</h1>
+  <form class="edit-form">
+    <div class="form-group">
+      <label for="name">Nome:</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="Seu nome">
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="Seu email">
+    </div>
+    <div class="form-group">
+      <label for="phone">Telefone:</label>
+      <input type="tel" class="form-control" id="phone" name="phone" placeholder="Seu telefone">
+    </div>
+    <div class="form-group">
+      <label for="avatar">Foto de Perfil:</label>
+      <!-- Imagem de perfil em formato de bola -->
+      <div class="profile-ball">
+        <img id="previewImg" src="https://via.placeholder.com/150" alt="Preview da Imagem" class="profile-img">
+      </div>
+      <input type="file" class="form-control-file mt-2" id="avatar" name="avatar" accept="image/*">
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+  </form>
+
+  <!-- Overlay de loading -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/getedit', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          var responseArray = JSON.parse(xhr.responseText);
+          var name = responseArray[0].name;
+          var img = responseArray[0].img;
+          var email = responseArray[0].email;
+          var phone = responseArray[0].telephone;
+
+          document.getElementById('name').value = name;
+          document.getElementById('email').value = email;
+          document.getElementById('phone').value = phone;
+          document.getElementById('previewImg').src = img;
+        } else {
+          console.error("Erro na requisição: " + xhr.status);
+        }
+      }
+    }
+    xhr.send();
+  });
+  document.querySelector('.edit-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Exibe o overlay de loading
+    document.getElementById('loadingOverlay').style.visibility = 'visible';
+
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var phone = document.getElementById('phone').value;
+    var avatarFile = document.getElementById('avatar').files[0];
+
+    var formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('phone', phone);
+    formData.append('avatar', avatarFile);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/save', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          console.log("Dados salvos com sucesso!");
+          // Oculta o overlay de loading após a requisição ser completada
+          document.getElementById('loadingOverlay').style.visibility = 'hidden';
+
+          window.location.replace('/home/index.html')
+        } else {
+          console.error("Erro ao salvar os dados: " + xhr.status);
+          // Em caso de erro, também é necessário ocultar o overlay de loading
+          document.getElementById('loadingOverlay').style.visibility = 'hidden';
+        }
+      }
+    };
+    xhr.send(formData);
+  });
+  document.getElementById('avatar').addEventListener('change', function(event) {
+    var previewImg = document.getElementById('previewImg');
+    var file = event.target.files[0];
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      previewImg.src = e.target.result;
+    }
+
+    reader.readAsDataURL(file);
+  });
+</script>
+
+</body>
+</html>

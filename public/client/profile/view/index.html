@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil do Cliente</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Adicionando preenchimento superior ao corpo da página */
+    body {
+      padding-top: 70px; /* Ajuste conforme necessário para compensar a altura da navbar */
+    }
+
+    /* Estilo para a bola de perfil */
+    .profile-ball {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto;
+      border: 5px solid #fff;
+      box-shadow: 0 0 0 10px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    /* Estilo para a imagem de perfil */
+    .profile-img {
+      width: 100%;
+      height: 140px;
+      display: block;
+    }
+
+    /* Estilo para os anúncios */
+    .listing {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    /* Estilo para o botão de editar perfil */
+    #editProfileBtn {
+      display: none;
+      width: 200px; /* Largura reduzida */
+      margin-top: 30px; /* Espaçamento superior aumentado */
+      background-color: #357ca5; /* Cor azul escuro */
+      border-color: #357ca5; /* Cor da borda */
+    }
+
+    /* Estilo para o botão de editar perfil quando hover */
+    #editProfileBtn:hover {
+      background-color: #2b6280; /* Cor azul mais escura ao passar o mouse */
+      border-color: #2b6280; /* Cor da borda ao passar o mouse */
+    }
+
+    /* Animação de entrada */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container">
+    <!-- Nome da empresa na navbar -->
+    <a class="navbar-brand" href="../../../home/index.html">InfoPets</a>
+    <!-- Botão de voltar para o início -->
+    <a class="btn btn-primary" href="../../../home/index.html">Voltar para o Início</a>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4">
+      <!-- Foto de perfil dentro da bola -->
+      <div class="profile-ball">
+        <img id="profileImg" src="https://via.placeholder.com/150" alt="Foto de Perfil" class="profile-img">
+      </div>
+      <!-- Botão de editar perfil -->
+      <div class="d-flex justify-content-center"> <!-- Centralizando o botão -->
+        <a id="editProfileBtn" class="btn btn-primary btn-block mt-3" href="../edit/index.html">Editar Perfil</a>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <!-- Dados do cliente -->
+      <div id="name">
+      </div>
+      <h4 class="mb-3">Últimos Anúncios</h4>
+      <!-- Anúncios do cliente -->
+      <!-- Anúncio 1 -->
+      <div class="listing">
+        <h5>Anúncio 1</h5>
+        <p>Descrição do Anúncio 1 Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      </div>
+      <!-- Anúncio 2 -->
+      <div class="listing">
+        <h5>Anúncio 2</h5>
+        <p>Descrição do Anúncio 2 Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      </div>
+      <!-- Anúncio 3 -->
+      <div class="listing">
+        <h5>Anúncio 3</h5>
+        <p>Descrição do Anúncio 3 Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    getinfo();
+  });
+
+  function getinfo() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/getinfo', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          var responseArray = JSON.parse(xhr.responseText);
+          console.log(responseArray)
+          var name = responseArray[0].name;
+          var img = responseArray[0].img;
+
+          // Atualizar o elemento HTML com o nome recebido
+          document.getElementById('name').innerHTML = '<h2 class="mb-4">' + name + '</h2>';
+
+          // Atualizar a imagem de perfil com a imagem recebida
+          var profileImg = document.getElementById('profileImg');
+          profileImg.src = img
+          // Exibir o botão de editar perfil após o carregamento dos dados
+          document.getElementById('editProfileBtn').style.display = 'block';
+        } else {
+          console.error(`Erro na requisição: ${xhr.status}`);
+        }
+      }
+    };
+    xhr.send();
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Anúncio</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      padding-top: 80px;
+      background-color: #f8f9fa;
+    }
+
+    .advertisement-details {
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      background-color: #fff;
+      padding: 20px;
+      margin: 0 auto;
+      max-width: 800px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    #advertisement-title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #advertisement-image {
+      display: block;
+      margin: 0 auto 20px;
+      border-radius: 3%;
+      max-width: 100%;
+    }
+
+    #advertisement-description {
+      text-align: justify;
+      margin-bottom: 20px;
+    }
+
+    .user-info {
+      font-size: 14px;
+      color: #6c757d;
+      text-align: right;
+    }
+
+    .profile-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #007bff;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="../../../home/index.html">InfoPets</a>
+    <a class="btn btn-primary" href="../../../home/index.html">Voltar para o Início</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="advertisement-details">
+    <h2 id="advertisement-title">Título do Anúncio</h2>
+    <img id="advertisement-image" src="https://via.placeholder.com/300" alt="Imagem do Anúncio" class="img-fluid">
+    <p id="advertisement-description">Descrição do anúncio.</p>
+    <div class="user-info">
+      <strong>Publicado por: </strong><span class="profile-dot" id="profile-dot"></span> <span id="advertisement-user">Nome do Usuário</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    let advertisementId = getParameterByName('id');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/details', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+          var advertisement = response.advertisement;
+          var account = response.account;
+
+          document.getElementById('advertisement-title').textContent = advertisement.title;
+          document.getElementById('advertisement-image').src = advertisement.images;
+          document.getElementById('advertisement-description').textContent = advertisement.description;
+          document.getElementById('advertisement-user').textContent = account.name;
+
+          var profileDot = document.getElementById('profile-dot');
+          profileDot.style.backgroundImage = `url('${account.image_profille}')`;
+        } else {
+          console.log("Erro na requisição.");
+        }
+      }
+    };
+    xhr.send('id=' + encodeURIComponent(advertisementId));
+  });
+</script>
+
+</body>
+</html>

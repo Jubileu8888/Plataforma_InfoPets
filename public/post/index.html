@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InfoPets - Inserir Postagem</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Seu CSS personalizado pode ser adicionado aqui */
+
+    /* Estilos específicos para a página de inserção de anúncios */
+    body {
+      background-color: #f8f9fa; /* Cor de fundo */
+    }
+
+    .login-container {
+      margin-top: 100px;
+    }
+
+    .login-form {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      animation: slide-up 0.5s ease;
+    }
+
+    @keyframes slide-up {
+      0% {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-control {
+      border-radius: 8px;
+    }
+
+    .btn-login,
+    .btn-register {
+      border-radius: 8px;
+    }
+
+    .navbar {
+      background-color: #b6b8ba !important;
+    }
+
+    .navbar-brand {
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .listing-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .listing-card img {
+      max-width: 300px;
+      max-height: 300px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .listing-card h3 {
+      margin-top: 0;
+    }
+
+    .listing-card p {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="../home/index.html">InfoPets</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav> 
+    
+<div class="container">
+  <div class="row justify-content-center login-container">
+    <div class="col-md-6">
+      <div class="login-form">
+        <h2 class="text-center mb-4">Inserir Postagem</h2>
+        <form id="anuncio-form" class="edit-form">
+          <div class="form-group">
+            <input name="titulo" id="titulo" type="text" class="form-control" placeholder="Título" required>
+          </div>
+          <div class="form-group">
+            <textarea name="descricao" id="descricao" class="form-control" placeholder="Descrição" rows="4" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="imagem">Imagem:</label>
+            <input type="file" name="imagem" class="form-control-file" id="imagem" accept="image/*" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Inserir Postagem</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h3>Sua postagem irá ficar assim</h3>
+      <div id="preview" class="listing-card">
+        <img alt="Preview Imagem" id="preview-imagem">
+        <h3 id="preview-titulo"></h3>
+        <p id="preview-descricao"></p>
+        <button href="#" class="btn btn-primary" disabled="true">Ver Detalhes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    // Atualizar o Preview conforme o usuário preenche o formulário
+    $("#anuncio-form").change(function() {
+      var titulo = $("#titulo").val();
+      var descricao = $("#descricao").val();
+      var imagem = $("#imagem")[0].files[0];
+
+      if (titulo !== "" || descricao !== "" || imagem) {
+        $("#preview-titulo").text(titulo);
+        $("#preview-descricao").text(descricao);
+        $("#preview-imagem").attr("src", URL.createObjectURL(imagem));
+        $("#preview").removeClass("d-none");
+      } else {
+        $("#preview").addClass("d-none");
+      }
+    });
+  });
+
+  document.querySelector('.edit-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var title = document.getElementById('titulo').value;
+    var description = document.getElementById('descricao').value;
+    var image = document.getElementById('imagem').files[0];
+
+    var formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('image', image);
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/post', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          console.log("dados salvos")
+          window.location.replace('/home/index.html')
+        } else {
+          console.log("test")
+          window.location.replace('/home/index.html')
+        }
+      }
+    }
+    xhr.send(formData);
+
+  });
+</script>
+
+</body>
+</html>
