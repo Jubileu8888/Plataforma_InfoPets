@@ -2,23 +2,9 @@ body {
     overflow-x: hidden;
   }
 
-  .hero {
-    background-image: url('https://via.placeholder.com/1500x500');
-    background-size: cover;
-    background-position: center;
-    color: #fff;
-    padding: 100px 0;
-    text-align: center;
-  }
-
-  .hero h1 {
-    font-size: 3.5rem;
-    margin-bottom: 20px;
-  }
-
-  .hero p {
-    font-size: 1.25rem;
-    margin-bottom: 40px;
+  #carouselExampleDark .carousel-item img {
+    height: 400px;
+    object-fit: cover;
   }
 
   .search-form {
