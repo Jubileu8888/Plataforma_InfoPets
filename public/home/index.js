@@ -114,3 +114,11 @@ document.addEventListener('DOMContentLoaded', function () {
     fazerRequisicao();
     srcad();
   });
+
+  const button = document.querySelector('.btn-anime');
+  button.addEventListener('mouseenter', () => {
+    button.style.transform = 'scale(1.05)';
+  });
+  button.addEventListener('mouseleave', () => {
+    button.style.transform = 'scale(1)';
+  });

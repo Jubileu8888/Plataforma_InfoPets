@@ -131,3 +131,142 @@ body {
     padding-bottom: 20px;
   }
 }
+
+.denuncie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  margin: 20px 0;
+  max-width: 100%;
+  opacity: 0;
+  transform: translateY(-50px);
+  animation: fadeIn 1s ease forwards;
+}
+
+.denuncie img:hover {
+  transform: scale(1.015);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.denuncie img {
+  flex: 1 1 100%;
+  max-width: 100%;
+  height: 300px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.denuncie div {
+  flex: 1 1 100%;
+  padding: 20px;
+  max-width: 100%;
+  animation: slideInUp 1s ease forwards;
+  opacity: 0;
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.denuncie h1 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+.denuncie p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  text-align: justify;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.denuncie button {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  animation: slideIn 0.5s ease forwards;
+  opacity: 0;
+}
+
+.denuncie button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 768px) {
+  .denuncie {
+    flex-wrap: nowrap;
+  }
+
+  .denuncie img {
+    order: 1;
+    flex: 1 1 50%;
+    max-width: 50%;
+    height: auto; /* Restaure a altura automática */
+  }
+
+  .denuncie div {
+    order: 2;
+    flex: 1 1 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .denuncie img {
+    order: 0;
+    margin-bottom: 20px;
+  }
+
+  .denuncie div {
+    order: 1;
+  }
+
+  .denuncie button {
+    order: 2;
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
