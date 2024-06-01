@@ -81,26 +81,6 @@ body {
     background-color: #e05044;
   }
 
-  @media screen and (max-width: 767px) {
-  .row {
-    margin-bottom: 20px;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .listing-card {
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-
-  .row:not(:first-child) .listing-card {
-    margin-top: 20px;
-  }
-  .col-md-4 {
-    padding-bottom: 20px;
-  }
-}
-
 .denuncie {
   display: flex;
   flex-wrap: wrap;

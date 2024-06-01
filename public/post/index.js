@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    // Atualizar o Preview conforme o usuário preenche o formulário
     $("#anuncio-form").change(function () {
         var titulo = $("#titulo").val();
         var descricao = $("#descricao").val();
@@ -42,5 +41,4 @@ document.querySelector('.edit-form').addEventListener('submit', function (event)
         }
     }
     xhr.send(formData);
-
 });

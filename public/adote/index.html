@@ -16,14 +16,71 @@
           </div>
         </div>
       </nav>
+
+      <div class="modal fade" id="modalcad" aria-labelledby="modalcadLabel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="modalcadLabel">Cadastro animal</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <br>
+              <form id="anuncio-form" class="edit-form">
+                <div class="form-group">
+                  <input name="titulo" id="titulo" type="text" class="form-control" placeholder="Título" required>
+                </div>
+                <br>
+                <div class="form-group">
+                  <textarea name="descricao" id="descricao" class="form-control" placeholder="Descrição" rows="4" required></textarea>
+                </div>
+                <br>
+                <div class="form-group">
+                  <label for="imagem">Imagem:</label>
+                  <input type="file" name="imagem" class="form-control-file" id="imagem" accept="image/*" required>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-bs-target="#modalconfim" data-bs-toggle="modal">Abrir segundo modal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="modalconfim" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modalconfim" tabindex="-1" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalToggleLabel2"></h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3>Sua divulgação ficará assim</h3>
+                <br>
+                <div id="preview" class="listing-card">
+                    <img alt="Preview Imagem" id="preview-imagem" src="">
+                    <h3 id="preview-titulo"></h3>
+                    <p id="preview-descricao"></p>
+                    <button href="#" class="btn btn-primary" disabled="true">Ver Detalhes</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-bs-target="#modalcad" data-bs-toggle="modal">Voltar para cadastro</button>
+            </div>
+          </div>
+        </div>
+      </div>
       
     <div class="container2 content-wrapper">
         <h2 class="tit1">Animais para adoção</h2>
         <p>PARA COLOCAR SEU ANIMAL PARA A ADOÇÃO, VOCÊ DEVE PREENCHER AS INFORMAÇÕES DO SEU PET, BEM COMO ENVIAR UMA FOTO QUE TENHA O VISUAL DO PET COM APROXIMADAMENTE 170x170, ASSIM QUE RECEBERMOS SERÁ ANALISADO E FEITO A POSTAGEM NO SITE GRATUITAMENTE.</p>
         <p>DICAS: O MELHOR LOCAL PARA DIVULGAÇÃO SÃO AS FEIRINHAS DE ADOÇÃO, PROCURE UMA PERTO DO SEU BAIRRO E DIVULGUE POR LÁ TAMBÉM, OUTROS SÃO OS LOCAIS DE BANHO E TOSA.</p>
-        <button class="adopt-button">Cadastrar animal</button>
+        <button class="adopt-button" data-bs-target="#modalcad" data-bs-toggle="modal">Cadastrar animal</button>
     </div>
 
+    <br>
+    <br>
+    <br>
 
     <div id="container"></div>
 
