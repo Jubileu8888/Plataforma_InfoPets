@@ -39,10 +39,13 @@
                   <label for="imagem">Imagem:</label>
                   <input type="file" name="imagem" class="form-control-file" id="imagem" accept="image/*" required>
                 </div>
-              </form>
+              <br>
+              <div class="ero" id="erros">
+                  <p id="error"></p>
+              </div>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-primary" data-bs-target="#modalconfim" data-bs-toggle="modal">Abrir segundo modal</button>
+              <button type="button" onclick="verif()" class="btn btn-primary">Continuar</button>
             </div>
           </div>
         </div>
@@ -66,7 +69,9 @@
             </div>
             <div class="modal-footer">
               <button class="btn btn-primary" data-bs-target="#modalcad" data-bs-toggle="modal">Voltar para cadastro</button>
+              <button type="submit" class="btn btn-primary" data-bs-toggle="modal">Cadastrar</button>
             </div>
+          </form>
           </div>
         </div>
       </div>

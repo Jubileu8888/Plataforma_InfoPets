@@ -19,6 +19,36 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  document.querySelector('.edit-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    var title = document.getElementById('titulo').value;
+    var description = document.getElementById('descricao').value;
+    var image = document.getElementById('imagem').files[0];
+
+    var formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('image', image);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/post', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log("Data saved successfully");
+                window.location.replace('/adote/index.html');
+            } else {
+                console.log("Error occurred");
+                window.location.replace('/adote/index.html');
+            }
+        }
+    };
+    xhr.send(formData);
+  });
+
+
+  
 
   function fazerRequisicao() {
     var xhr = new XMLHttpRequest();
@@ -126,3 +156,38 @@ document.addEventListener('DOMContentLoaded', function () {
   fazerRequisicao();
   srcad();
 });
+
+function verif() {
+  var title = document.getElementById('titulo').value;
+  var description = document.getElementById('descricao').value;
+  var image = document.getElementById('imagem').files[0];
+
+  var error = document.getElementById('erros');
+
+  error.innerHTML = ""
+
+  console.log(`title: ${title}`)
+
+  if (title) {
+      if (description) {
+          if (image) {
+              // Abrir o segundo modal
+              var modalConfirm = new bootstrap.Modal(document.getElementById('modalconfim'));
+              modalConfirm.show();
+
+              // Fechar o primeiro modal
+              var modalCad = bootstrap.Modal.getInstance(document.getElementById('modalcad'));
+              modalCad.hide();
+          } else {
+              console.log("sem imagem")
+              error.innerHTML = "Preencha todos os campos para continuar."
+          }
+      } else {
+          console.log("Sem descrição")
+          error.innerHTML = "Preencha todos os campos para continuar."
+      }
+  } else {
+      console.log("sem titulo")
+      error.innerHTML = "Preencha todos os campos para continuar."
+  }
+}
