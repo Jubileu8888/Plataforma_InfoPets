@@ -16,7 +16,6 @@
           </div>
         </div>
       </nav>
-
       <div class="modal fade" id="modalcad" aria-labelledby="modalcadLabel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -27,16 +26,38 @@
             <div class="modal-body">
               <br>
               <form id="anuncio-form" class="edit-form">
-                <div class="form-group">
-                  <input name="titulo" id="titulo" type="text" class="form-control" placeholder="Título" required>
+                <div class="form-row">
+                  <div class="form-group form-item">
+                    <h6>Nome (Animal)</h6>
+                    <input name="namepet" id="namepet" type="text" class="form-control" placeholder="Digite o nome do animal" required>
+                  </div>
+                  <br>
+                  <div class="form-group form-item">
+                    <h6>Raça</h6>
+                    <input name="raca" id="raca" class="form-control" placeholder="Digite a raça do animal" required></input>
+                  </div>
                 </div>
                 <br>
                 <div class="form-group">
-                  <textarea name="descricao" id="descricao" class="form-control" placeholder="Descrição" rows="4" required></textarea>
+                  <h6>Nome</h6>
+                  <input type="text" name="username" id="username" placeholder="Digite seu nome" class="form-control" required></input>
                 </div>
                 <br>
+                
+                <div class="form-row">
+                  <div class="form-group form-item">
+                    <h6>E-mail</h6>
+                    <input type="text" name="email" id="email" placeholder="Digite seu e-mail" class="form-control" required></input>
+                  </div>
+                  <div class="form-group form-item">
+                    <h6>Telefone</h6>
+                    <input type="text" name="telephone" id="telephone" placeholder="Digite seu telefone" class="form-control" required></input>
+                  </div>
+                </div>
+                <br>
+  
                 <div class="form-group">
-                  <label for="imagem">Imagem:</label>
+                  <h6>Imagem</h6>
                   <input type="file" name="imagem" class="form-control-file" id="imagem" accept="image/*" required>
                 </div>
               <br>
@@ -62,8 +83,10 @@
                 <br>
                 <div id="preview" class="listing-card">
                     <img alt="Preview Imagem" id="preview-imagem" src="">
-                    <h3 id="preview-titulo"></h3>
-                    <p id="preview-descricao"></p>
+                    <h4 id="preview-namepet"></h4>
+                    <p id="preview-descricao">
+                      <h6>Nome (animal): <p id="preview-namepet2"></p></h6>
+                    </p>
                     <button href="#" class="btn btn-primary" disabled="true">Ver Detalhes</button>
                 </div>
             </div>

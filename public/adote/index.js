@@ -1,35 +1,48 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById("anuncio-form").addEventListener('change', function () {
-    var titulo = document.getElementById("titulo").value;
-    var descricao = document.getElementById("descricao").value;
+        
+    var namepet = document.getElementById("namepet").value;
+    var racapet = document.getElementById("raca").value;
+    var nameuser = document.getElementById("username").value;
+    var email = document.getElementById("email").value;
+    var telephone = document.getElementById("telephone").value;
     var imagem = document.getElementById("imagem").files[0];
 
-    if (titulo !== "" || descricao !== "" || imagem) {
-      document.getElementById("preview-titulo").textContent = titulo;
-      document.getElementById("preview-descricao").textContent = descricao;
-      if (imagem) {
-        document.getElementById("preview-imagem").src = URL.createObjectURL(imagem);
-      } else {
-        document.getElementById("preview-imagem").src = "";
-      }
-      document.getElementById("preview").classList.remove("d-none");
+
+    if (namepet !== "" || racapet !== "" || imagem) {
+        document.getElementById("preview-namepet").textContent = namepet;
+        document.getElementById("preview-namepet2").textContent = namepet;
+        // document.getElementById("preview-descricao").textContent = descricao;
+        if (imagem) {
+            document.getElementById("preview-imagem").src = URL.createObjectURL(imagem);
+        } else {
+            document.getElementById("preview-imagem").src = "";
+        }
+        document.getElementById("preview").classList.remove("d-none");
     } else {
-      document.getElementById("preview").classList.add("d-none");
+        document.getElementById("preview").classList.add("d-none");
     }
-  });
+});
 
   document.querySelector('.edit-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
-    var title = document.getElementById('titulo').value;
-    var description = document.getElementById('descricao').value;
-    var image = document.getElementById('imagem').files[0];
+    
+    var namepet = document.getElementById("namepet").value;
+    var racapet = document.getElementById("raca").value;
+    var nameuser = document.getElementById("username").value;
+    var email = document.getElementById("email").value;
+    var telephone = document.getElementById("telephone").value;
+    var imagem = document.getElementById("imagem").files[0];
 
     var formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('image', image);
+    formData.append('namepet', namepet);
+    formData.append('racapet', racapet);
+    formData.append('nameuser', nameuser);
+    formData.append('email', email);
+    formData.append('telephone', telephone);
+    formData.append('image', imagem);
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/api/post', true);
@@ -158,36 +171,26 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function verif() {
-  var title = document.getElementById('titulo').value;
-  var description = document.getElementById('descricao').value;
-  var image = document.getElementById('imagem').files[0];
+
+  var namepet = document.getElementById("namepet").value;
+  var racapet = document.getElementById("raca").value;
+  var nameuser = document.getElementById("username").value;
+  var email = document.getElementById("email").value;
+  var telephone = document.getElementById("telephone").value;
+  var imagem = document.getElementById("imagem").files[0];
 
   var error = document.getElementById('erros');
 
   error.innerHTML = ""
 
-  console.log(`title: ${title}`)
+  if (namepet && racapet && nameuser && email && telephone && imagem) {
+      
+      var modalConfirm = new bootstrap.Modal(document.getElementById('modalconfim'));
+      modalConfirm.show();
 
-  if (title) {
-      if (description) {
-          if (image) {
-              // Abrir o segundo modal
-              var modalConfirm = new bootstrap.Modal(document.getElementById('modalconfim'));
-              modalConfirm.show();
-
-              // Fechar o primeiro modal
-              var modalCad = bootstrap.Modal.getInstance(document.getElementById('modalcad'));
-              modalCad.hide();
-          } else {
-              console.log("sem imagem")
-              error.innerHTML = "Preencha todos os campos para continuar."
-          }
-      } else {
-          console.log("Sem descrição")
-          error.innerHTML = "Preencha todos os campos para continuar."
-      }
+      var modalCad = bootstrap.Modal.getInstance(document.getElementById('modalcad'));
+      modalCad.hide();
   } else {
-      console.log("sem titulo")
-      error.innerHTML = "Preencha todos os campos para continuar."
+      error.innerHTML = "Preencha todos os campos para continuar."  
   }
 }
