@@ -193,3 +193,12 @@ function verif() {
       error.innerHTML = "Preencha todos os campos para continuar."  
   }
 }
+
+function returnmod() {
+
+  var modalCad = new bootstrap.Modal(document.getElementById('modalcad'));
+  modalCad.show();
+  
+  var modalConfirm = bootstrap.Modal.getInstance(document.getElementById('modalconfim'));
+  modalConfirm.hide();
+}
