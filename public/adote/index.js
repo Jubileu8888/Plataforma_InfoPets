@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var formData = new FormData();
     formData.append('namepet', namepet);
     formData.append('racapet', racapet);
-    formData.append('nameuser', nameuser);
     formData.append('email', email);
     formData.append('telephone', telephone);
     formData.append('image', imagem);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 22/05/2024 às 14:09
+-- Tempo de geração: 09/06/2024 às 04:05
 -- Versão do servidor: 8.2.0
 -- Versão do PHP: 8.2.13
 
@@ -47,8 +47,10 @@ CREATE TABLE IF NOT EXISTS `accounts` (
 DROP TABLE IF EXISTS `advertisement`;
 CREATE TABLE IF NOT EXISTS `advertisement` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(200) NOT NULL,
-  `description` varchar(200) NOT NULL,
+  `namepet` varchar(200) NOT NULL,
+  `racapet` varchar(200) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `phone` varchar(150) NOT NULL,
   `images` varchar(200) NOT NULL,
   `id_profille` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)

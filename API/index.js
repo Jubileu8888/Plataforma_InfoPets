@@ -99,8 +99,11 @@ app.get('/api/verify2', (req, res) => {
 });
 
 app.post('/api/post', upload.single('image'), async (req, res) => {
-  const title = req.body.title;
-  const description = req.body.description;
+  const namepet = req.namepet;
+  const racapet = req.racapet;
+  const nameuser = req.nameuser;
+  const email = req.email;
+  const phone = req.telephone;
   const image = req.file;
   const ID = req.session.sessioninfopets.id;
 
@@ -153,8 +156,8 @@ app.post('/api/post', upload.single('image'), async (req, res) => {
         console.log('Imagem enviada com sucesso para o Imgur. Link:', imgUrl);
         await deleteLocalImage(imagePath);
         
-        const QueryPost = "INSERT INTO advertisement (title, description, images, id_profille) VALUES (?, ?, ?, ?)";
-        connection.query(QueryPost, [title, description, imgUrl, ID], (insertError, insertResults) => {
+        const QueryPost = "INSERT INTO advertisement (namepet, racapet, email, phone, images, id_profille) VALUES (?, ?, ?, ?, ?, ?)";
+        connection.query(QueryPost, [namepet, racapet, email, imgUrl, phone, imgUrl, ID], (insertError, insertResults) => {
           if (insertError) {
             res.status(500).send("Erro interno no servidor.")
           } else {
@@ -170,7 +173,7 @@ app.post('/api/post', upload.single('image'), async (req, res) => {
 });
 
 app.get('/api/srcposts', (req, res) => {
-  const QuerySrc = "SELECT id, title, description, images, id_profille FROM advertisement";
+  const QuerySrc = "SELECT id, namepet, racapet, email, phone, images, id_profille FROM advertisement";
 
   connection.query(QuerySrc, (err, results) => {
     if (err) {
