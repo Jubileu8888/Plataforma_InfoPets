@@ -99,13 +99,12 @@ app.get('/api/verify2', (req, res) => {
 });
 
 app.post('/api/post', upload.single('image'), async (req, res) => {
-  const namepet = req.namepet;
-  const racapet = req.racapet;
-  const nameuser = req.nameuser;
-  const email = req.email;
-  const phone = req.telephone;
-  const image = req.file;
-  const ID = req.session.sessioninfopets.id;
+  var namepet = req.namepet;
+  var racapet = req.racapet;
+  var email = req.email;
+  var phone = req.telephone;
+  var image = req.file;
+  var ID = req.session.sessioninfopets.id;
 
   function readImageFile(filePath) {
     return new Promise((resolve, reject) => {
@@ -147,7 +146,7 @@ app.post('/api/post', upload.single('image'), async (req, res) => {
     }
   }
 
-  const imagePath = __dirname + `/uploads/${image.filename}`;
+  var imagePath = __dirname + `/uploads/${image.filename}`;
 
   (async () => {
     try {
@@ -157,7 +156,7 @@ app.post('/api/post', upload.single('image'), async (req, res) => {
         await deleteLocalImage(imagePath);
         
         const QueryPost = "INSERT INTO advertisement (namepet, racapet, email, phone, images, id_profille) VALUES (?, ?, ?, ?, ?, ?)";
-        connection.query(QueryPost, [namepet, racapet, email, imgUrl, phone, imgUrl, ID], (insertError, insertResults) => {
+        connection.query(QueryPost, [namepet, racapet, email, phone, imgUrl, ID], (insertError, insertResults) => {
           if (insertError) {
             res.status(500).send("Erro interno no servidor.")
           } else {
@@ -230,6 +229,7 @@ app.post('/api/save', upload.single('avatar'), async (req, res) => {
   const phone = req.body.phone;
   const avatar = req.file;
   const ID = req.session.sessioninfopets.id;
+  var imgno = false;
   
   function readImageFile(filePath) {
       return new Promise((resolve, reject) => {
@@ -270,29 +270,47 @@ app.post('/api/save', upload.single('avatar'), async (req, res) => {
           throw error;
       }
   }
-
-  const imagePath = __dirname + `/uploads/${avatar.filename}`;
-
+  try {
+    var imagePath = __dirname + `/uploads/${avatar.filename}`;
+  } catch (error) {
+    console.log("sem img");
+    imgno = true;
+  }
 
   (async () => {
-      try {
-          const imageData = await readImageFile(imagePath);
-          const imgUrl = await uploadImageToImgur(imageData);
-          console.log('Imagem enviada com sucesso para o Imgur. Link:', imgUrl);
-          await deleteLocalImage(imagePath);
-          const Queryupdate = "UPDATE accounts SET name = ?, email = ?, number = ?, image_profille = ? WHERE id = ?";
-          connection.query(Queryupdate, [name, email, phone, imgUrl, ID], (err, results) => {
+    try {
+          if (imgno == false) {
+            const imageData = await readImageFile(imagePath);
+            const imgUrl = await uploadImageToImgur(imageData);
+            console.log('Imagem enviada com sucesso para o Imgur. Link:', imgUrl);
+            await deleteLocalImage(imagePath);
+            const Queryupdate = "UPDATE accounts SET name = ?, email = ?, number = ?, image_profille = ? WHERE id = ?";
+            connection.query(Queryupdate, [name, email, phone, imgUrl, ID], (err, results) => {
+              if (err) {
+                console.log(err);
+                res.status(500).send("Erro interno no servidor.");
+              } else {
+                console.log("Foi")
+                res.send('foi')
+              }
+          });
+        } else {
+          const QueryUpdate = "UPDATE accounts SET name= ?, email = ?, number = ? WHERE id = ?";
+          connection.query(QueryUpdate, [name,email,phone,ID], (err, results) => {
             if (err) {
               console.log(err);
               res.status(500).send("Erro interno no servidor.");
             } else {
-              console.log("Foi")
-              res.send('foi')
+              console.log("Foi");
+              res.send('foi');
             }
           });
+        }
       } catch (error) {
-        await deleteLocalImage(imagePath);
-          console.error('Erro:', error);
+        if (imgno == false) { 
+          await deleteLocalImage(imagePath);
+        }
+        console.error('Erro:', error);
       }
   })();
 });

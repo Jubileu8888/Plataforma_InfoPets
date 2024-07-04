@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function () {
     
     var namepet = document.getElementById("namepet").value;
     var racapet = document.getElementById("raca").value;
-    var nameuser = document.getElementById("username").value;
     var email = document.getElementById("email").value;
     var telephone = document.getElementById("telephone").value;
     var imagem = document.getElementById("imagem").files[0];
