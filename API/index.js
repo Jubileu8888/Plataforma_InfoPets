@@ -99,10 +99,10 @@ app.get('/api/verify2', (req, res) => {
 });
 
 app.post('/api/post', upload.single('image'), async (req, res) => {
-  var namepet = req.namepet;
-  var racapet = req.racapet;
-  var email = req.email;
-  var phone = req.telephone;
+  var namepet = req.body.namepet;
+  var racapet = req.body.racapet;
+  var email = req.body.email;
+  var phone = req.body.telephone;
   var image = req.file;
   var ID = req.session.sessioninfopets.id;
 
@@ -158,7 +158,8 @@ app.post('/api/post', upload.single('image'), async (req, res) => {
         const QueryPost = "INSERT INTO advertisement (namepet, racapet, email, phone, images, id_profille) VALUES (?, ?, ?, ?, ?, ?)";
         connection.query(QueryPost, [namepet, racapet, email, phone, imgUrl, ID], (insertError, insertResults) => {
           if (insertError) {
-            res.status(500).send("Erro interno no servidor.")
+	    console.log(insertError);
+            res.status(500).send("Erro interno no servidor.");
           } else {
             res.send('FOI');
           }

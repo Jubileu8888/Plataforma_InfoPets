@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     var namepet = document.getElementById("namepet").value;
     var racapet = document.getElementById("raca").value;
+    var nameuser = document.getElementById("username").value;
     var email = document.getElementById("email").value;
     var telephone = document.getElementById("telephone").value;
     var imagem = document.getElementById("imagem").files[0];
@@ -120,25 +121,128 @@ document.addEventListener('DOMContentLoaded', function () {
             var listingCard = document.createElement('div');
             listingCard.className = 'listing-card';
 
+            var listingContainermodal = document.getElementById('containermodal')
+
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            const modalDiv = document.createElement('div');
+            modalDiv.classList.add('modal', 'fade');
+            modalDiv.id = `details${advertisement.id}`;
+            modalDiv.setAttribute('data-bs-backdrop', 'static');
+            modalDiv.setAttribute('data-bs-keyboard', 'false');
+            modalDiv.setAttribute('aria-labelledby', `details${advertisement.id}`);
+            modalDiv.tabIndex = '-1';
+            modalDiv.setAttribute('aria-hidden', 'true');
+            modalDiv.style.display = 'none';
+
+            const modalDialog = document.createElement('div');
+            modalDialog.classList.add('modal-dialog', 'modal-dialog-centered');
+
+            const modalContent = document.createElement('div');
+            modalContent.classList.add('modal-content');
+
+            const modalHeader = document.createElement('div');
+            modalHeader.classList.add('modal-header');
+
+            const modalTitle = document.createElement('h1');
+            modalTitle.classList.add('modal-title', 'fs-5');
+            modalTitle.id = 'exampleModalToggleLabel2';
+            modalTitle.textContent = ''; // Coloque o título desejado aqui
+
+            const closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.classList.add('btn-close');
+            closeButton.setAttribute('data-bs-dismiss', 'modal');
+            closeButton.setAttribute('aria-label', 'Close');
+
+            modalHeader.appendChild(modalTitle);
+            modalHeader.appendChild(closeButton);
+
+            const modalBody = document.createElement('div');
+            modalBody.classList.add('modal-body');
+
+            const centerElement = document.createElement('center');
+            const imgmod = document.createElement('img');
+            imgmod.src = `${advertisement.images}`;
+            imgmod.alt = 'imgcao';
+            imgmod.classList.add('imgdetailmod')
+            centerElement.appendChild(imgmod);
+            
+
+            const namePetParagraph = document.createElement('p');
+            namePetParagraph.textContent = ``;
+
+            const nameAnimal = document.createElement('h6');
+            nameAnimal.textContent = `Nome (animal): ${advertisement.namepet}`;
+            nameAnimal.appendChild(namePetParagraph);
+
+            const race = document.createElement('h6');
+            race.textContent = `Raça: ${advertisement.racapet}`;
+            race.appendChild(namePetParagraph.cloneNode(true));
+
+            const email = document.createElement('h6');
+            email.textContent = `E-mail: ${advertisement.email}`;
+            email.appendChild(namePetParagraph.cloneNode(true));
+
+            const phone = document.createElement('h6');
+            phone.textContent = `Telefone: ${advertisement.phone}`;
+            phone.appendChild(namePetParagraph.cloneNode(true));
+
+            modalBody.appendChild(document.createElement('br'));
+            modalBody.appendChild(centerElement);
+            modalBody.appendChild(document.createElement('br'));
+            modalBody.appendChild(nameAnimal);
+            modalBody.appendChild(race);
+            modalBody.appendChild(email);
+            modalBody.appendChild(phone);
+
+            const modalFooter = document.createElement('div');
+            modalFooter.classList.add('modal-footer');
+
+            const closeButtonFooter = document.createElement('button');
+            closeButtonFooter.type = 'button';
+            closeButtonFooter.classList.add('btn', 'btn-primary');
+            closeButtonFooter.setAttribute('data-bs-dismiss', 'modal');
+            closeButtonFooter.textContent = 'Fechar';
+
+            modalFooter.appendChild(closeButtonFooter);
+
+            modalContent.appendChild(modalHeader);
+            modalContent.appendChild(modalBody);
+            modalContent.appendChild(modalFooter);
+
+            modalDialog.appendChild(modalContent);
+
+            modalDiv.appendChild(modalDialog);
+
+            // Inserção na página
+            document.body.appendChild(modalDiv);
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            // FICA
             var img = document.createElement('img');
             img.src = advertisement.images;
             img.alt = advertisement.title;
 
+            // FICA
             var h3 = document.createElement('h3');
             h3.textContent = advertisement.title;
 
-            var p = document.createElement('p');
-            p.textContent = advertisement.description;
-
+            // FICA
             var btn = document.createElement('button');
-            btn.onclick = details;
+            btn.setAttribute('onclick', `openmodaldetails(${advertisement.id})`);
+            btn.setAttribute('data-bs-target', `#details${advertisement.id}`);
+            btn.setAttribute('data-bs-toogle', 'modal');
             btn.id = `${advertisement.id}`
             btn.className = 'btn btn-primary';
             btn.textContent = 'Ver Detalhes';
 
             listingCard.appendChild(img);
             listingCard.appendChild(h3);
-            listingCard.appendChild(p);
             listingCard.appendChild(btn);
 
             colDiv.appendChild(listingCard);
@@ -200,4 +304,10 @@ function returnmod() {
   
   var modalConfirm = bootstrap.Modal.getInstance(document.getElementById('modalconfim'));
   modalConfirm.hide();
+}
+
+
+function openmodaldetails(id) {
+  var modaldetail = new bootstrap.Modal(document.getElementById(`details${id}`));
+  modaldetail.show();
 }
