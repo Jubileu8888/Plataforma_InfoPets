@@ -1,66 +1,71 @@
-document.addEventListener('DOMContentLoaded', function () {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/getedit', true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                var responseArray = JSON.parse(xhr.responseText);
-                var name = responseArray[0].name;
-                var img = responseArray[0].img;
-                var email = responseArray[0].email;
-                var phone = responseArray[0].telephone;
-
-                document.getElementById('name').value = name;
-                document.getElementById('email').value = email;
-                document.getElementById('phone').value = phone;
-                document.getElementById('previewImg').src = img;
-            } else {
-                console.error("Erro na requisição: " + xhr.status);
-            }
-        }
-    }
-    xhr.send();
+document.addEventListener('DOMContentLoaded', async () => {
+  await carregarDadosEdicao();
+  configurarPreviewAvatar();
+  configurarFormulario();
 });
-document.querySelector('.edit-form').addEventListener('submit', function (event) {
-    event.preventDefault();
+
+async function carregarDadosEdicao() {
+  try {
+    const res = await fetch('/api/user/profile');
+
+    if (res.status === 401) {
+      window.location.href = '/page_login/login/index.html';
+      return;
+    }
+
+    const { dados } = await res.json();
+
+    document.getElementById('name').value  = dados.name;
+    document.getElementById('email').value = dados.email;
+    document.getElementById('phone').value = dados.number;
+    document.getElementById('previewImg').src = dados.image_profille;
+  } catch (err) {
+    console.error('Erro ao carregar dados:', err);
+  }
+}
+
+function configurarPreviewAvatar() {
+  document.getElementById('avatar').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      document.getElementById('previewImg').src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function configurarFormulario() {
+  document.querySelector('.edit-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
     document.getElementById('loadingOverlay').style.visibility = 'visible';
 
-    var name = document.getElementById('name').value;
-    var email = document.getElementById('email').value;
-    var phone = document.getElementById('phone').value;
-    var avatarFile = document.getElementById('avatar').files[0];
+    const formData = new FormData();
+    formData.append('name',   document.getElementById('name').value);
+    formData.append('email',  document.getElementById('email').value);
+    formData.append('phone',  document.getElementById('phone').value);
 
-    var formData = new FormData();
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('phone', phone);
-    formData.append('avatar', avatarFile);
+    const avatarFile = document.getElementById('avatar').files[0];
+    if (avatarFile) formData.append('avatar', avatarFile);
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/save', true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                console.log("Dados salvos com sucesso!");
-                document.getElementById('loadingOverlay').style.visibility = 'hidden';
+    try {
+      const res = await fetch('/api/user/profile', {
+        method: 'PUT',
+        body: formData,
+      });
 
-                window.location.replace('/home/index.html')
-            } else {
-                console.error("Erro ao salvar os dados: " + xhr.status);
-                document.getElementById('loadingOverlay').style.visibility = 'hidden';
-            }
-        }
-    };
-    xhr.send(formData);
-});
-document.getElementById('avatar').addEventListener('change', function (event) {
-    var previewImg = document.getElementById('previewImg');
-    var file = event.target.files[0];
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-        previewImg.src = e.target.result;
+      if (res.ok) {
+        window.location.replace('/home/index.html');
+      } else {
+        console.error('Erro ao salvar perfil:', res.status);
+      }
+    } catch (err) {
+      console.error('Erro na requisição:', err);
+    } finally {
+      document.getElementById('loadingOverlay').style.visibility = 'hidden';
     }
-    reader.readAsDataURL(file);
-});
+  });
+}

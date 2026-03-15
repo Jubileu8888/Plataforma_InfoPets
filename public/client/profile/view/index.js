@@ -1,27 +1,20 @@
-document.addEventListener('DOMContentLoaded', function () {
-    getinfo();
-});
+document.addEventListener('DOMContentLoaded', carregarPerfil);
 
-function getinfo() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/getinfo', true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                var responseArray = JSON.parse(xhr.responseText);
-                console.log(responseArray)
-                var name = responseArray[0].name;
-                var img = responseArray[0].img;
+async function carregarPerfil() {
+  try {
+    const res = await fetch('/api/user/profile');
 
-                document.getElementById('name').innerHTML = '<h2 class="mb-4">' + name + '</h2>';
+    if (res.status === 401) {
+      window.location.href = '/page_login/login/index.html';
+      return;
+    }
 
-                var profileImg = document.getElementById('profileImg');
-                profileImg.src = img
-                document.getElementById('editProfileBtn').style.display = 'block';
-            } else {
-                console.error(`Erro na requisição: ${xhr.status}`);
-            }
-        }
-    };
-    xhr.send();
+    const { dados } = await res.json();
+
+    document.getElementById('name').innerHTML = `<h2 class="mb-4">${dados.name}</h2>`;
+    document.getElementById('profileImg').src = dados.image_profille;
+    document.getElementById('editProfileBtn').style.display = 'block';
+  } catch (err) {
+    console.error('Erro ao carregar perfil:', err);
+  }
 }

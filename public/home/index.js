@@ -1,43 +1,37 @@
-document.addEventListener('DOMContentLoaded', function () {
-    function fazerRequisicao() {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/api/verifyprofile', true);
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
-            var responseArray = JSON.parse(xhr.responseText);
-            if (xhr.responseText == "NaN") {
-              console.log("Não está logado");
-            } else {
-              var profileBall = document.createElement("a");
-              profileBall.href = "../client/profile/view/index.html"
-              profileBall.classList.add("profile-ball");
+document.addEventListener('DOMContentLoaded', async () => {
+  await carregarSessao();
+  iniciarAnimacaoBotao();
+});
 
+async function carregarSessao() {
+  try {
+    const res = await fetch('/api/user/session');
+    if (!res.ok) return;
 
-              var profileImage = document.createElement("img");
-              profileImage.src = responseArray[0].img;
-              profileImage.alt = "Imagem de Perfil";
-              profileBall.appendChild(profileImage);
+    const { dados } = await res.json();
+    if (!dados) return;
 
-              var loginButton = document.getElementById("locateimgorlogin");
-              loginButton.parentNode.replaceChild(profileBall, loginButton);
-            }
-          } else {
-            console.error('Erro na requisição: ' + xhr.status);
-          }
-        }
-      };
-      xhr.send();
-    };
-  
+    const loginBtn = document.getElementById('locateimgorlogin');
 
-    fazerRequisicao();
-  });
+    const link = document.createElement('a');
+    link.href = '../client/profile/view/index.html';
+    link.classList.add('profile-ball');
 
+    const img = document.createElement('img');
+    img.src = dados.image_profille;
+    img.alt = 'Imagem de Perfil';
+
+    link.appendChild(img);
+    loginBtn.parentNode.replaceChild(link, loginBtn);
+  } catch (err) {
+    console.error('Erro ao carregar sessão:', err);
+  }
+}
+
+function iniciarAnimacaoBotao() {
   const button = document.querySelector('.btn-anime');
-  button.addEventListener('mouseenter', () => {
-    button.style.transform = 'scale(1.05)';
-  });
-  button.addEventListener('mouseleave', () => {
-    button.style.transform = 'scale(1)';
-  });
+  if (!button) return;
+
+  button.addEventListener('mouseenter', () => button.style.transform = 'scale(1.05)');
+  button.addEventListener('mouseleave', () => button.style.transform = 'scale(1)');
+}
